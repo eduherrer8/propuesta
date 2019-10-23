@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: propuesta
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /enterprises/:
+    get:
+      summary: enterprise info
+      tags:
+        - enterprise
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    business_name: SHIPPIFY MEXICO
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Token
+components:
+  schemas: {}
