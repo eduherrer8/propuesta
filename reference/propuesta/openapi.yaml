@@ -3,7 +3,8 @@ info:
   title: propuesta
   version: '1.0'
 servers:
-  - url: 'http://localhost:3000'
+  - url: server
+    description: server producción
 paths:
   /enterprises/:
     get:
@@ -21,13 +22,195 @@ paths:
               examples:
                 example-1:
                   value:
-                    id: 1
-                    business_name: SHIPPIFY MEXICO
+                    count: 20
+                    next: 'server/enterprises/?limit=24&offset=24'
+                    previous: null
+                    results:
+                      - id: 1
+                        business_name: SHIPPIFY MEXICO
+                        address:
+                          state: CDMX
+                          street: someStreet
+                          external_number: '123'
+                          internal_number: a
+                          neighborhood: lomas de chapultepec
+                          municipality: Miguel Hidalgo
+                          city: CDMX
+                          zip_code: '11000'
+                        billing_name: SHIPPIFY SA de CV
+                        rules:
+                          - 1
+                          - 2
+                          - 3
+                        billing_contact: some@ac.com
+                      - id: 2
+                        business_name: SHIPPIFY MEXICO 2
+                        address:
+                          state: CDMX
+                          street: someStreet
+                          external_number: '123'
+                          internal_number: a
+                          neighborhood: lomas de chapultepec
+                          municipality: Miguel Hidalgo
+                          city: CDMX
+                          zip_code: '11000'
+                        billing_name: SHIPPIFY2 SA de CV
+                        rules:
+                          - 3
+                        billing_contact: some@ac.com
+      parameters: []
+      security:
+        - Token: []
+  /payments/:
+    get:
+      summary: payments info
+      tags:
+        - fr-payments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                ok:
+                  value:
+                    count: 20
+                    next: 'server/payments/?limit=24&offset=24'
+                    previous: null
+                    results:
+                      - id: 20
+                        created_at: '2019-04-28T12:34:55-05:00'
+                        updated_at: '2019-04-28T12:34:55-05:00'
+                        real_payment_date: '2018-07-20'
+                        amount: '80251.00'
+                        principal: '79000.00'
+                        interest: '1251.00'
+                        collection_fee: '0.00'
+                        billed: false
+                        fr: 1
+                      - id: 19
+                        created_at: '2019-04-28T12:34:55-05:00'
+                        updated_at: '2019-04-28T12:34:55-05:00'
+                        real_payment_date: '2018-07-20'
+                        amount: '80251.00'
+                        principal: '79000.00'
+                        interest: '1251.00'
+                        collection_fee: '0.00'
+                        billed: false
+                        fr: 1
       parameters:
         - schema:
             type: string
-          in: header
-          name: Authorization
-          description: Token
+          in: query
+          name: real_payment_date
+      security:
+        - Token: []
+  /fr/:
+    get:
+      summary: solicitudes
+      tags:
+        - fr
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example:
+                  value:
+                    count: 20
+                    next: 'server/fr/?limit=24&offset=24'
+                    previous: null
+                    results:
+                      - id: 1
+                        fr_investments:
+                          - id: 3
+                            payments:
+                              - id: 8
+                                created_at: '2018-12-18T14:37:29.701000-06:00'
+                                updated_at: '2019-01-25T12:41:11.701000-06:00'
+                                amount: '106691.00'
+                                principal: '103000.00'
+                                interest: '3691.00'
+                                net_interest: '3181.90'
+                                vat_interest: '509.10'
+                                fine: '0.00'
+                                vat_retention: '339.40'
+                                isr_retention: '318.19'
+                                collection_fee: '0.00'
+                                billed_fee: true
+                                billed_interest: true
+                                real_payment_date: '2018-08-16'
+                                notes: '[{fr_id:13,inv_id:161,amount:21000}], se depositó el saldo de la cuota, menos las retenciones de esta y la anterior inversión (id 8): 84,644.14'
+                                investment: 9
+                                fr_payment: 5
+                            state: Completed
+                            created_at: '2018-07-02T13:34:10.701000-05:00'
+                            updated_at: '2018-08-15T18:13:21.701000-05:00'
+                            amount: '10000.00'
+                            rate: '12.50'
+                            upfront_fee: '18.56'
+                            collection_fee: '12.37'
+                            stp_id: ''
+                            note: ''
+                            virtual: false
+                            billed_fee: false
+                            approved_date: null
+                            funding_request: 1
+                            user: 2
+                        simulation:
+                          id: 1
+                          product_type: Factoraje
+                          credit_type: Balloon
+                          created_at: '2018-06-22T14:24:19.701000-05:00'
+                          updated_at: '2018-12-20T15:49:45.701000-06:00'
+                          simulation_name: '1'
+                          total_value_invoice: '0.00'
+                          advance_percentage: 80
+                          borrower_fee_percentage: '0.00590981012658227823'
+                          duration: 32
+                          simulation_date: '2018-06-22'
+                          final_rate: '30.00000000000000000000'
+                          amount: '79000.00'
+                          amount_to_receive: '78502.00'
+                          installment_amount: '80778.00'
+                          borrower_fee: '498.00'
+                          collection_fee_percentage: '0.00000000000000000000'
+                          collection_fee: '0.00'
+                          end_date: '2018-07-31'
+                          real_duration: 32
+                        state: completed
+                        payments:
+                          - id: 2
+                            created_at: '2019-04-28T12:34:55-05:00'
+                            updated_at: '2019-04-28T12:34:55-05:00'
+                            real_payment_date: '2018-07-20'
+                            amount: '80251.00'
+                            principal: '79000.00'
+                            interest: '1251.00'
+                            collection_fee: '0.00'
+                            billed: false
+                            fr: 1
+                        created_at: '2018-06-22T14:24:19.701000-05:00'
+                        updated_at: '2018-12-20T15:49:45.701000-06:00'
+                        image_url: 'https://i.imgur.com/tpy8H6w.jpg'
+                        views: 151
+                        billed: true
+                        publish_date: '2018-06-27T12:13:37.701000-05:00'
+                        funding_deadline: null
+                        activation_date: '2018-07-02T12:13:37.701000-05:00'
+                        accounting_date: '2018-07-02T12:13:37.701000-05:00'
+                        payment_date: '2018-07-31'
+                        enterprise: 1
 components:
   schemas: {}
+  securitySchemes:
+    Token:
+      type: http
+      scheme: Bearer
