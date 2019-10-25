@@ -208,6 +208,176 @@ paths:
                         accounting_date: '2018-07-02T12:13:37.701000-05:00'
                         payment_date: '2018-07-31'
                         enterprise: 1
+  /investors/:
+    get:
+      summary: inversionistas
+      tags:
+        - investor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    count: 20
+                    next: server/investors/?page=2
+                    previous: null
+                    results:
+                      - id: 1
+                        category: Alto patrimonio
+                        billing_schema: Crédito
+                        clabe_stp: '646180158320000013'
+                        email: evelasco@mtg.cl
+                        name: ''
+                        is_business: true
+                        rfc: ''
+                        address:
+                          - calle: Circulo Apolo
+                            no.ext: '8752'
+                            no.int: depto 404
+                            colonia: Perfume
+                            delegación/municipio: Las Condes
+                            ciudad: Las Condes
+                            código_postal: '12122'
+                            estado: Ciudad de México
+                            país: MEXICO
+                      - id: 2
+                        category: Alto patrimonio
+                        billing_schema: Enajenación
+                        clabe_stp: '646180158320000013'
+                        email: evelasco@mtg.cl
+                        name: ''
+                        is_business: true
+                        rfc: ''
+                        address:
+                          - calle: Circulo Apolo
+                            no.ext: '8752'
+                            no.int: depto 404
+                            colonia: Perfume
+                            delegación/municipio: Las Condes
+                            ciudad: Las Condes
+                            código_postal: '12122'
+                            estado: Ciudad de México
+                            país: MEXICO
+      security:
+        - Token: []
+  /rules/:
+    get:
+      summary: Ver reglas
+      tags:
+        - rules
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    count: 20
+                    next: server/rules/
+                    previous: null
+                    results:
+                      - id: 1
+                        name: regla 1
+                        description: Se factura de la siguiente forma...
+                      - id: 2
+                        name: regla 2
+                        description: Se factura de la siguiente forma...
+      security:
+        - Token: []
+  /billing-schema/:
+    get:
+      summary: reglas inversionistas
+      tags:
+        - billing
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    count: 20
+                    next: server/billing-schema/
+                    previous: null
+                    results:
+                      - id: 1
+                        name: Enajenación
+                        description: Se factura de la siguiente forma...
+                      - id: 2
+                        name: Ƈrédito
+                        description: Se factura de la siguiente forma...
+      security:
+        - Token: []
+  /fr/invoices/:
+    post:
+      summary: Crear factura
+      tags:
+        - fr
+      responses:
+        '201':
+          description: Created
+      description: |
+        Se registran las facturas de entrada y salida
+        Tipos de facturas
+        0 - Entradas
+        1 - Salida
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                fr:
+                  type: integer
+                invoice_kind:
+                  type: integer
+              required:
+                - uuid
+                - fr
+                - invoice_kind
+  /investment-payments/invoices/:
+    post:
+      summary: Crear factura para pago de inverción
+      tags:
+        - invetments
+      responses:
+        '201':
+          description: Created
+      description: Se registran las facturas asociadas a cada pago de inversión
+      security:
+        - Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                investment_payment:
+                  type: integer
+                uuid:
+                  type: integer
+                billing_schema:
+                  type: integer
+              required:
+                - investment_payment
+                - uuid
+                - billing_schema
 components:
   schemas: {}
   securitySchemes:
