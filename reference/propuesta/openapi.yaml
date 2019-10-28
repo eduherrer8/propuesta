@@ -371,13 +371,149 @@ paths:
                 investment_payment:
                   type: integer
                 uuid:
-                  type: integer
+                  type: string
                 billing_schema:
                   type: integer
               required:
                 - investment_payment
                 - uuid
                 - billing_schema
+  /errors/:
+    get:
+      summary: List errors
+      tags:
+        - errors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    count: 20
+                    next: server/errors/
+                    previous: null
+                    results:
+                      - id: 1
+                        fr: 1
+                        investment_payment: null
+                        created_at: '2019-09-10T12:27:09.175891-05:00'
+                        resolved: true
+                        retry: false
+                        updated_at: '2019-09-12T12:27:09.175891-05:00'
+                        details:
+                          - '2019-09-10T12:27:09.175891-05:00':
+                              error 1: referente al error1 de fecha1
+                              error 2: referente al error de fecha1
+                            '2019-09-11T12:27:09.175891-05:00':
+                              error 1: referente al error1 de fecha2
+                              error 2: referente al error de fecha2
+                      - id: 2
+                        fr: null
+                        investment_payment: 1
+                        created_at: '2019-09-10T12:27:09.175891-05:00'
+                        resolved: false
+                        retry: true
+                        updated_at: '2019-09-12T12:27:09.175891-05:00'
+                        details:
+                          - '2019-09-10T12:27:09.175891-05:00':
+                              error 1: referente al error1 de fecha1
+                              error 2: referente al error de fecha1
+                            '2019-09-11T12:27:09.175891-05:00':
+                              error 1: referente al error1 de fecha2
+                              error 2: referente al error de fecha2
+      description: Ver erores para la facturación
+      security:
+        - Token: []
+      requestBody: {}
+    post:
+      summary: Create errors
+      tags:
+        - errors
+      responses:
+        '200':
+          description: OK
+      description: Crear un error asociado a una solicitud o a un pago de inversión
+      security:
+        - Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fr:
+                  type: integer
+                investment_payment:
+                  type: integer
+                details:
+                  type: object
+              required:
+                - details
+            examples:
+              example-1:
+                value:
+                  details:
+                    error 1: referente al error1
+                    error 2: referente al error2
+  '/errors/{:id}':
+    parameters:
+      - type: string
+        name: ':id'
+        in: path
+        required: true
+    patch:
+      summary: Update the details from the error
+      tags:
+        - errors
+      responses: {}
+      security:
+        - Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                detail:
+                  type: object
+            examples:
+              example-1: {}
+    get:
+      summary: retrieve error object
+      tags:
+        - errors
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    id: 1
+                    fr: 1
+                    investment_payment: null
+                    created_at: '2019-09-10T12:27:09.175891-05:00'
+                    resolved: true
+                    retry: false
+                    updated_at: '2019-09-12T12:27:09.175891-05:00'
+                    details:
+                      - '2019-09-10T12:27:09.175891-05:00':
+                          error 1: referente al error1 de fecha1
+                          error 2: referente al error de fecha1
+                        '2019-09-11T12:27:09.175891-05:00':
+                          error 1: referente al error1 de fecha2
+                          error 2: referente al error de fecha2
+      security:
+        - Token: []
 components:
   schemas: {}
   securitySchemes:
