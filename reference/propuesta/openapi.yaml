@@ -353,7 +353,7 @@ paths:
                 - invoice_kind
   /investment-payments/invoices/:
     post:
-      summary: Crear factura para pago de inverción
+      summary: Crear factura para pago de inversión
       tags:
         - invetments
       responses:
